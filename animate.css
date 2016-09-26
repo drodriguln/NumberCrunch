@@ -1,80 +1,95 @@
-.title-pop {
-  animation: titlePop 0.6s linear;
+.title-slide-left {
+  animation: titleSlideLeft 0.3s ease-out;
+}
+
+.title-slide-right {
+  animation: titleSlideRight 0.3s ease-out;
 }
 
 .title-crunch-left {
-  animation: titleCrunchLeft 0.8s linear;
+  animation: titleCrunchLeft 0.7s ease-in;
 }
 
 .title-crunch-right {
-  animation: titleCrunchRight 0.8s linear;
+  animation: titleCrunchRight 0.7s ease-in;
 }
 
-@keyframes titlePop {
-  0% {
-    font-size: 100%;
+@keyframes titleSlideRight {
+
+  from {
+    right: -100%;
   }
 
-  25% {
-    font-size: 125%;
+  to {
+    right: 0%;
   }
 
-  50% {
-    font-size: 150%;
+}
+
+@keyframes titleSlideLeft {
+
+  from {
+    left: -100%;
   }
 
-  75% {
-    font-size: 125%;
-  }
-
-  100% {
-    font-size: 100%;
+  to {
+    left: 0%;
   }
 
 }
 
 @keyframes titleCrunchLeft {
+
   0% {
-    left:0px;
+    left: 0px;
   }
 
-  25% {
-    left:3px;
+  20% {
+    left: -20px;
   }
 
-  50% {
-    left:6px;
+  40% {
+    left: 7px;
   }
 
-  75% {
-    left:3px;
+  60% {
+    left: 2px;
+  }
+
+  80% {
+    left: 1px;
   }
 
   100% {
-    left:0px;
+    left: 0px;
   }
 
 }
 
 @keyframes titleCrunchRight {
+
   0% {
-    right:0px;
+    right: 0px;
   }
 
-  25% {
-    right:3px;
+  20% {
+    right: -20px;
   }
 
-  50% {
-    right:6px;
+  40% {
+    right: 7px;
   }
 
-  75% {
-    right:3px;
+  60% {
+    right: 2px;
+  }
+
+  80% {
+    right: 1px;
   }
 
   100% {
-    right:0px;
+    right: 0px;
   }
 
 }

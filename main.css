@@ -16,6 +16,7 @@ body {
   position: relative;
   color: LightGoldenRodYellow ;
   text-shadow: 2px 2px 2px Black, 0 0 10px Silver;
+  font-weight: bold;
 }
 
 .title-header-box {

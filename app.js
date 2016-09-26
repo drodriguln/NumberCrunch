@@ -68,12 +68,13 @@ function($scope, $timeout) {
     $scope.output = $scope.crunch();
     $scope.formula = $scope.output + ' ' + $scope.operator + ' ' + $scope.input + ' = ' + $scope.output;
     $scope.input = '';
+    $scope.crunchTitle = '';
 
     var audio = new Audio('sounds/crunch.wav');
     audio.play();
 
-    $('#title-left').removeClass("title-pop").addClass("title-crunch-left");
-    $('#title-right').removeClass("title-pop").addClass("title-crunch-right");
+    $('#title-left').removeClass("title-slide-left").addClass("title-crunch-left");
+    $('#title-right').removeClass("title-slide-right").addClass("title-crunch-right");
 
     $timeout(function() {
       $('#title-left').removeClass("title-crunch-left");
