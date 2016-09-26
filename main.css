@@ -1,0 +1,97 @@
+.center-text {
+  text-align: center;
+}
+
+body {
+  background: LightBlue;
+}
+
+.well {
+  background: SteelBlue;
+  color: White;
+  font-size: 22pt;
+}
+
+.title-header {
+  position: relative;
+  color: LightGoldenRodYellow ;
+  text-shadow: 2px 2px 2px Black, 0 0 10px Silver;
+}
+
+.title-header-box {
+  padding-bottom: 30px;
+  padding-top: 30px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  font-size: 64px;
+}
+
+.margin-bottom {
+  margin-bottom:20px;
+}
+
+@media(min-width: 768px) {
+  .panel-fixed-height-md {
+    height: 106px;
+  }
+}
+
+@media(max-width: 991px) {
+  .panel-fixed-height-md {
+    height: 151px;
+  }
+}
+
+@media(min-width: 768px) {
+  .panel-fixed-height-lg {
+    height: 392px;
+  }
+}
+
+@media(max-width: 991px) {
+  .panel-fixed-height-lg {
+    height: 381px;
+  }
+}
+
+.overflow-scroll {
+  overflow-y: scroll;
+}
+
+.crunch-text-title {
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.0;
+}
+
+@media (min-width: 768px) {
+  .crunch-text-title {
+    font-size: 28px;
+  }
+}
+
+.crunch-text {
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 1.0;
+}
+
+@media (min-width: 768px) {
+  .crunch-text {
+    font-size: 20px;
+  }
+}
+
+.crunch-text-formula {
+  font-size: 10px;
+  font-weight: 300;
+  line-height: 1.0;
+}
+
+@media (min-width: 768px) {
+  .crunch-text-formula {
+    font-size: 14px;
+  }
+
+}
