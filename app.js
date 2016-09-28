@@ -16,7 +16,15 @@ function($scope, $timeout) {
   $scope.crunchTitle = '';
   $scope.crunchIsActive = false;
   $scope.isCurrency = false;
-  $scope.crunches = [];
+  //$scope.crunches = [];
+  /* TEST DATA */
+  $scope.crunches = [
+    {title:'Test 1',crunch:1,formula:'1 + 0'},
+    {title:'Test 2',crunch:2,formula:'2 + 0'},
+    {title:'Test 3',crunch:3,formula:'3 + 0'},
+    {title:'Test 4',crunch:4,formula:'4 + 0'},
+    {title:'Test 5',crunch:5,formula:'5 + 0'}
+  ];
   $scope.operatorList = ['+','-','*','/'];
 
   $scope.crunch = function() {
@@ -82,6 +90,11 @@ function($scope, $timeout) {
     }, 800);
 
 
+  }
+
+  $scope.removeCrunch = function() {
+    var indexReversed =  Math.abs($scope.crunches.length - this.$index - 1);
+    $scope.crunches.splice(indexReversed, 1);
   }
 
   $scope.clearInput = function() {

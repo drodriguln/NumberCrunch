@@ -32,6 +32,13 @@ body {
   margin-bottom:20px;
 }
 
+.remove-crunch-link {
+  margin-bottom: 0px;
+  margin-top: 5px;
+  margin-left: 15px;
+  font-size: 11pt;
+}
+
 @media(min-width: 768px) {
   .panel-fixed-height-md {
     height: 106px;

@@ -112,14 +112,17 @@
         <div class="panel-body" ng-if="crunches.length > 0" ng-repeat="crunchObject in crunches | reverse">
           <div class="row">
             <div class="col-md-8">
+              <div class="crunch-text-title"><b>{{crunchObject.title}}</b></div>
               <table>
-                <tr>
-                  <td class="crunch-text-title"><b>{{crunchObject.title}}</b></td>
-                </tr>
                 <tr>
                   <td class="crunch-text">
                     {{crunchObject.crunch}}
                     <span class="crunch-text-formula"> ({{crunchObject.formula}})</span>
+                  </td>
+                  <td>
+                    <div class="remove-crunch-link">
+                      <a href="" ng-click="removeCrunch()">Remove</a>
+                    </div>
                   </td>
                 </tr>
               </table>
