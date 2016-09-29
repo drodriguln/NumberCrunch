@@ -72,23 +72,39 @@
       </form>
       <div class="row">
         <div class="col-sm-12">
-          <div class="panel panel-info panel-fixed-height-md">
+          <div class="panel panel-info">
             <div class="panel-heading">
               Tools
             </div>
             <div class="panel-body">
               <div class="form-group">
                 <div class="row">
-                  <div class="col-md-8 margin-bottom">
+                  <div class="col-sm-12">
                     <div class="btn-group">
                       <button type="button" class="btn btn-default" ng-click="clearInput()">Clear Fields</button>
                       <button type="button" class="btn btn-default" ng-click="clearCrunches()">Clear Crunches</button>
+                      <button type="button" class="btn btn-default" ng-click="downloadCsv()" download="NumberCrunch.csv">Download CSV <span class="red-text">*</span></button>
                     </div>
                   </div>
-                  <div class="col-md-4 margin-bottom">
+                </div>
+                <div class="row">
+                  <div class="col-sm-12">
                     <div class="checkbox">
-                      <label><input type="checkbox" ng-model="isCurrency" value="true">Use Currency</label>
+                      <label>
+                        <input type="checkbox" ng-model="isCurrency" value="true">
+                        Use Currency
+                      </label>
                     </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-12">
+                    <span class="disclaimer-text">
+                      <span class="red-text">
+                        *
+                      </span>
+                      Safari currently not supported.
+                    </span>
                   </div>
                 </div>
               </div>

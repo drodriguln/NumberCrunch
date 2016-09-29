@@ -108,6 +108,30 @@ function($scope, $timeout) {
     $scope.crunches = [];
   }
 
+  $scope.downloadCsv = function() {
+
+    if ($scope.crunches.length > 0 && $scope.crunches != null) {
+
+      var filename = 'NumberCrunch.csv';
+      var csvDelimiter = ',';
+      var csvLineBreak = '\r\n';
+      var csv = 'data:text/csv;charset=utf-8' + csvDelimiter;
+      csv += 'TITLE' + csvDelimiter + 'FORMULA' + csvDelimiter + 'AMOUNT' + csvLineBreak;
+
+      for (i = 0; i < $scope.crunches.length; i++) {
+        csv += $scope.crunches[i].title + csvDelimiter + $scope.crunches[i].formula + csvDelimiter + $scope.crunches[i].crunch + csvLineBreak;
+      }
+
+      var data = encodeURI(csv);
+      var link = document.createElement('a');
+      link.setAttribute('href', data);
+      link.setAttribute('download', filename);
+      link.click();
+
+      }
+
+  }
+
   $scope.$watch('isCurrency', function() {
     if ($scope.isCurrency == true) {
       $scope.input = parseFloat(Math.round($scope.input * 100) / 100).toFixed(2);

@@ -39,21 +39,18 @@ body {
   font-size: 11pt;
 }
 
-@media(min-width: 768px) {
-  .panel-fixed-height-md {
-    height: 106px;
-  }
+.red-text {
+  color: Red;
 }
 
-@media(max-width: 991px) {
-  .panel-fixed-height-md {
-    height: 151px;
-  }
+.disclaimer-text {
+  font-style: italic;
+  font-size: 9pt;
 }
 
 @media(min-width: 768px) {
   .panel-fixed-height-lg {
-    height: 392px;
+    height: 467px;
   }
 }
 
