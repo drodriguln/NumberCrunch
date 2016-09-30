@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+	<meta http-equiv="X-UA-Compatible" content="IE=11" />
   <title>NumberCrunch</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
   <link rel="stylesheet" href="main.css">
@@ -12,6 +14,14 @@
   <script src="app.js"></script>
 </head>
 <body ng-app="myApp" ng-controller="myController">
+  <!--[if lte IE 10]>
+  	<div class="outdated-browser-notification">
+  		<br />
+  		<h3>You are using an <strong>outdated</strong> browser.</h3>
+  		<h3>Please <a href="http://browsehappy.com/">upgrade your browser</a> to use this website.</h3>
+  		<br />
+  	</div>
+  <![endif]-->
   <div class="title-header-box">
     <span id="title-left" class="title-header title-slide-left">Number</span>
     <span id="title-right" class="title-header title-slide-right">Crunch</span>
