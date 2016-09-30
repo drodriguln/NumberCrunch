@@ -1,5 +1,6 @@
 var app = angular.module('myApp', ['ngAnimate']);
 
+//Displays an array in reverse order in the view.
 app.filter('reverse', function() {
   return function(items) {
     return items.slice().reverse();
@@ -9,6 +10,7 @@ app.filter('reverse', function() {
 app.controller('myController',
 function($scope, $timeout) {
 
+  //Initialize variables and arrays.
   $scope.output = '';
   $scope.input = '';
   $scope.operator = '';
@@ -16,17 +18,10 @@ function($scope, $timeout) {
   $scope.crunchTitle = '';
   $scope.crunchIsActive = false;
   $scope.isCurrency = false;
-  //$scope.crunches = [];
-  /* TEST DATA */
-  $scope.crunches = [
-    {title:'Test 1',crunch:1,formula:'1 + 0'},
-    {title:'Test 2',crunch:2,formula:'2 + 0'},
-    {title:'Test 3',crunch:3,formula:'3 + 0'},
-    {title:'Test 4',crunch:4,formula:'4 + 0'},
-    {title:'Test 5',crunch:5,formula:'5 + 0'}
-  ];
+  $scope.crunches = [];
   $scope.operatorList = ['+','-','*','/'];
 
+  //"Crunch" the selected terms with the selected operator.
   $scope.crunch = function() {
 
     if ($scope.operator == "+") {
@@ -67,6 +62,7 @@ function($scope, $timeout) {
 
   }
 
+  //Pass the crunch to the "crunches" array. The array is what is actually displayed in the view.
   $scope.appendCrunch = function() {
     if($scope.isCurrency == true) {
       $scope.crunches.push({title:$scope.crunchTitle,crunch:'$' + $scope.crunch(),formula:'$' + $scope.output + ' ' + $scope.operator + ' ' + '$' + $scope.input});
@@ -78,12 +74,13 @@ function($scope, $timeout) {
     $scope.input = '';
     $scope.crunchTitle = '';
 
-    var audio = new Audio('sounds/crunch.wav');
+    //Play the crunch sound.
+    var audio = new Audio('sounds/crunch.mp3');
     audio.play();
 
+    //Execute crunch animation by removing/adding animated classes.
     $('#title-left').removeClass("title-slide-left").addClass("title-crunch-left");
     $('#title-right').removeClass("title-slide-right").addClass("title-crunch-right");
-
     $timeout(function() {
       $('#title-left').removeClass("title-crunch-left");
       $('#title-right').removeClass("title-crunch-right");
@@ -92,24 +89,30 @@ function($scope, $timeout) {
 
   }
 
+  //Remove selected crunch in the view's list.
   $scope.removeCrunch = function() {
     var indexReversed =  Math.abs($scope.crunches.length - this.$index - 1);
     $scope.crunches.splice(indexReversed, 1);
   }
 
+  //Clear the text input fields.
   $scope.clearInput = function() {
     $scope.output = '';
     $scope.input = '';
     $scope.operator = '';
+    $scope.crunchTitle = '';
     $scope.formula = 'Crunch your numbers below.';
   }
 
+  //Clears the entire list of crunches.
   $scope.clearCrunches = function() {
     $scope.crunches = [];
   }
 
+  //Parses the "crunches" array ito a comma-delimited format, then creates a CSV file to download.
   $scope.downloadCsv = function() {
 
+    //Must have at least one crunch available to create CSV file.
     if ($scope.crunches.length > 0 && $scope.crunches != null) {
 
       var filename = 'NumberCrunch.csv';
@@ -128,16 +131,17 @@ function($scope, $timeout) {
       link.setAttribute('download', filename);
       link.click();
 
-      }
+    }
 
   }
 
+  //Watches every time the "Use Currency" checkbox is changed in the view.
   $scope.$watch('isCurrency', function() {
     if ($scope.isCurrency == true) {
       $scope.input = parseFloat(Math.round($scope.input * 100) / 100).toFixed(2);
       $scope.output = parseFloat(Math.round($scope.output * 100) / 100).toFixed(2);
     } else if ($scope.isCurrency == false && $scope.output == '' && $scope.input == '') {
-      $scope.output == '';
+      $scope.input == '';
       $scope.output == '';
     } else if ($scope.isCurrency == false && $scope.output == '') {
       $scope.output == '';
@@ -149,6 +153,7 @@ function($scope, $timeout) {
     }
   });
 
+  //Watches every time changes are made to the the input fields for the two terms and the operator in the view.
   $scope.$watchGroup(['output','operator','input'], function () {
 
     if(!isNaN(parseFloat($scope.output)) && !isNaN(parseFloat($scope.input)) && $scope.operator != '') {

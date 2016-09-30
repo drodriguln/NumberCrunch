@@ -28,15 +28,15 @@ body {
   font-size: 64px;
 }
 
-.margin-bottom {
-  margin-bottom:20px;
-}
-
 .remove-crunch-link {
   margin-bottom: 0px;
   margin-top: 5px;
   margin-left: 15px;
   font-size: 11pt;
+}
+
+.add-margin-bottom {
+  margin-bottom: 20px;
 }
 
 .red-text {
@@ -48,9 +48,14 @@ body {
   font-size: 9pt;
 }
 
+.margin-bottom-none {
+  padding-bottom: 0px;
+  margin-bottom: 0px;
+}
+
 @media(min-width: 768px) {
   .panel-fixed-height-lg {
-    height: 467px;
+    height: 453px;
   }
 }
 
