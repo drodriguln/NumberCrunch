@@ -19,7 +19,7 @@ function($scope, $timeout) {
   $scope.crunchIsActive = false;
   $scope.isCurrency = false;
   $scope.crunches = [];
-  $scope.operatorList = ['+','-','x','/'];
+  $scope.operatorList = ['+','-','x','/','N/A'];
 
   //"Crunch" the selected terms with the selected operator.
   $scope.crunch = function() {
@@ -64,15 +64,36 @@ function($scope, $timeout) {
 
   //Pass the crunch to the "crunches" array. The array is what is actually displayed in the view.
   $scope.appendCrunch = function() {
-    if($scope.isCurrency == true) {
-      $scope.crunches.push({title:$scope.crunchTitle,crunch:'$' + $scope.crunch(),display:'$' + $scope.firstTerm + ' ' + $scope.operator + ' ' + '$' + $scope.secondTerm});
-    } else {
-      $scope.crunches.push({title:$scope.crunchTitle,crunch:$scope.crunch(),display:$scope.firstTerm + ' ' + $scope.operator + ' ' + $scope.secondTerm});
+    if ($scope.operator == 'N/A') {
+
+      if($scope.isCurrency == true) {
+        $scope.crunches.push({title:$scope.crunchTitle,crunch:'$' + $scope.firstTerm,display:$scope.operator});
+        $scope.display = '$' + $scope.firstTerm;
+      } else {
+        $scope.crunches.push({title:$scope.crunchTitle,crunch:$scope.firstTerm,display:$scope.operator});
+        $scope.display = $scope.firstTerm;
+      }
+
+      $scope.crunchTitle = '';
+
     }
-    $scope.firstTerm = $scope.crunch();
-    $scope.display = $scope.firstTerm + ' ' + $scope.operator + ' ' + $scope.secondTerm + ' = ' + $scope.firstTerm;
-    $scope.secondTerm = '';
-    $scope.crunchTitle = '';
+
+    else {
+
+      if($scope.isCurrency == true) {
+        $scope.crunches.push({title:$scope.crunchTitle,crunch:'$' + $scope.crunch(),display:'$' + $scope.firstTerm + ' ' + $scope.operator + ' ' + '$' + $scope.secondTerm});
+        $scope.firstTerm = $scope.crunch();
+        $scope.display = '$' + $scope.firstTerm + ' ' + $scope.operator;
+      } else {
+        $scope.crunches.push({title:$scope.crunchTitle,crunch:$scope.crunch(),display:$scope.firstTerm + ' ' + $scope.operator + ' ' + $scope.secondTerm});
+        $scope.firstTerm = $scope.crunch();
+        $scope.display = $scope.firstTerm + ' ' + $scope.operator;
+      }
+
+      $scope.secondTerm = '';
+      $scope.crunchTitle = '';
+
+    }
 
     //Play the crunch sound.
     var audio = new Audio('sounds/crunch.mp3');
@@ -168,41 +189,52 @@ function($scope, $timeout) {
   //Watches every time changes are made to the the secondTerm fields for the two terms and the operator in the view.
   $scope.$watchGroup(['firstTerm','operator','secondTerm'], function () {
 
-    //Controls the trigger for the crunch animation in the view.
-    if(!isNaN(parseFloat($scope.firstTerm)) && !isNaN(parseFloat($scope.secondTerm)) && $scope.operator != '') {
+    //Enables use of the "Save" button in the view.
+    if ( ( !isNaN(parseFloat($scope.firstTerm)) && !isNaN(parseFloat($scope.secondTerm)) && $scope.operator != '' )
+    || ( (!isNaN(parseFloat($scope.firstTerm)) && $scope.operator == 'N/A') ) ) {
       $scope.crunchIsActive = true;
     } else {
       $scope.crunchIsActive = false;
     }
 
     //Display display in view depending on how isCurrency is toggled.
-    if ($scope.isCurrency == true) {
-      if ($scope.firstTerm != '' && $scope.operator != '' && $scope.secondTerm != '') {
-        $scope.display = '$' + $scope.firstTerm + ' ' + $scope.operator + ' ' + '$' + $scope.secondTerm + ' = ' + '$' + $scope.crunch();
-      } else if ($scope.firstTerm != '' && $scope.operator == '' && $scope.secondTerm == '') {
+    if ($scope.operator == 'N/A') {
+      if ($scope.isCurrency == true && $scope.firstTerm != '') {
         $scope.display = '$' + $scope.firstTerm;
-      } else if ($scope.firstTerm != '' && $scope.operator == '' && $scope.secondTerm != '') {
-        $scope.display = 'Please select an operator.';
-      } else if ($scope.firstTerm == '' && $scope.operator != '' && $scope.secondTerm != '') {
-        $scope.display = '?' + ' ' + $scope.operator + ' ' + '$' + $scope.secondTerm + ' = ' + '?';
-      } else if ($scope.firstTerm != '' && $scope.operator != '' && $scope.secondTerm == '') {
-        $scope.display = '$' + $scope.firstTerm + ' ' + $scope.operator;
+      } else if ($scope.isCurrency == false && $scope.firstTerm != '') {
+        $scope.display = $scope.firstTerm;
       } else {
         $scope.display = 'Crunch your numbers below.';
       }
     } else {
-      if ($scope.firstTerm != '' && $scope.operator != '' && $scope.secondTerm != '') {
-        $scope.display = $scope.firstTerm + ' ' + $scope.operator + ' ' + $scope.secondTerm + ' = ' + $scope.crunch();
-      } else if ($scope.firstTerm != '' && $scope.operator == '' && $scope.secondTerm == '') {
-        $scope.display = $scope.firstTerm;
-      } else if ($scope.firstTerm != '' && $scope.operator == '' && $scope.secondTerm != '') {
-        $scope.display = 'Please select an operator.';
-      } else if ($scope.firstTerm == '' && $scope.operator != '' && $scope.secondTerm != '') {
-        $scope.display = '? ' + $scope.operator + ' ' + $scope.secondTerm + ' = ?';
-      } else if ($scope.firstTerm != '' && $scope.operator != '' && $scope.secondTerm == '') {
-        $scope.display = $scope.firstTerm + ' ' + $scope.operator;
+      if ($scope.isCurrency == true) {
+        if ($scope.firstTerm != '' && $scope.operator != '' && $scope.secondTerm != '') {
+          $scope.display = '$' + $scope.firstTerm + ' ' + $scope.operator + ' ' + '$' + $scope.secondTerm + ' = ' + '$' + $scope.crunch();
+        } else if ($scope.firstTerm != '' && $scope.operator == '' && $scope.secondTerm == '') {
+          $scope.display = '$' + $scope.firstTerm;
+        } else if ($scope.firstTerm != '' && $scope.operator == '' && $scope.secondTerm != '') {
+          $scope.display = 'Please select an operator.';
+        } else if ($scope.firstTerm == '' && $scope.operator != '' && $scope.secondTerm != '') {
+          $scope.display = '?' + ' ' + $scope.operator + ' ' + '$' + $scope.secondTerm + ' = ' + '?';
+        } else if ($scope.firstTerm != '' && $scope.operator != '' && $scope.secondTerm == '') {
+          $scope.display = '$' + $scope.firstTerm + ' ' + $scope.operator;
+        } else {
+          $scope.display = 'Crunch your numbers below.';
+        }
       } else {
-        $scope.display = 'Crunch your numbers below.';
+        if ($scope.firstTerm != '' && $scope.operator != '' && $scope.secondTerm != '') {
+          $scope.display = $scope.firstTerm + ' ' + $scope.operator + ' ' + $scope.secondTerm + ' = ' + $scope.crunch();
+        } else if ($scope.firstTerm != '' && $scope.operator == '' && $scope.secondTerm == '') {
+          $scope.display = $scope.firstTerm;
+        } else if ($scope.firstTerm != '' && $scope.operator == '' && $scope.secondTerm != '') {
+          $scope.display = 'Please select an operator.';
+        } else if ($scope.firstTerm == '' && $scope.operator != '' && $scope.secondTerm != '') {
+          $scope.display = '? ' + $scope.operator + ' ' + $scope.secondTerm + ' = ?';
+        } else if ($scope.firstTerm != '' && $scope.operator != '' && $scope.secondTerm == '') {
+          $scope.display = $scope.firstTerm + ' ' + $scope.operator;
+        } else {
+          $scope.display = 'Crunch your numbers below.';
+        }
       }
     }
 

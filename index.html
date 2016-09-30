@@ -68,7 +68,7 @@
                     <div class="input-group">
                       <span ng-if="isCurrency" class="input-group-addon">$</span>
                       <span ng-if="!isCurrency" class="input-group-addon">#</span>
-                      <input class="form-control" ng-model="secondTerm" required>
+                      <input class="form-control" ng-disabled="operator == 'N/A'" ng-model="secondTerm" required>
                     </div>
                   </div>
                 </div>
