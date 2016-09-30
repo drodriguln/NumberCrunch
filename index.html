@@ -18,7 +18,7 @@
   </div>
   <div class="container">
     <div class="well well-sm center-text">
-      {{formula}}
+      {{display}}
     </div>
   </div>
   <div class="container">
@@ -83,7 +83,7 @@
                 <div class="row">
                   <div class="col-sm-12">
                     <div class="btn-group">
-                      <button type="button" class="btn btn-default" ng-click="clearSecondTerm()">Clear Fields</button>
+                      <button type="button" class="btn btn-default" ng-click="clearTerms()">Clear Fields</button>
                       <button type="button" class="btn btn-default" ng-click="clearCrunches()">Clear Crunches</button>
                       <button type="button" class="btn btn-default" ng-click="downloadCsv()" download="NumberCrunch.csv">Download CSV <span class="red-text">*</span></button>
                     </div>
@@ -135,7 +135,7 @@
                 <tr>
                   <td class="crunch-text">
                     {{crunchObject.crunch}}
-                    <span class="crunch-text-formula"> ({{crunchObject.formula}})</span>
+                    <span class="crunch-text-display"> ({{crunchObject.display}})</span>
                   </td>
                   <td>
                     <div class="remove-crunch-link">

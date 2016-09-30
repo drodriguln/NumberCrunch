@@ -14,12 +14,12 @@ function($scope, $timeout) {
   $scope.firstTerm = '';
   $scope.secondTerm = '';
   $scope.operator = '';
-  $scope.formula = 'Crunch your numbers below.';
+  $scope.display = 'Crunch your numbers below.';
   $scope.crunchTitle = '';
   $scope.crunchIsActive = false;
   $scope.isCurrency = false;
   $scope.crunches = [];
-  $scope.operatorList = ['+','-','*','/'];
+  $scope.operatorList = ['+','-','x','/'];
 
   //"Crunch" the selected terms with the selected operator.
   $scope.crunch = function() {
@@ -40,7 +40,7 @@ function($scope, $timeout) {
       }
     }
 
-    else if ($scope.operator == "*") {
+    else if ($scope.operator == "x") {
       if ($scope.isCurrency == true) {
         return parseFloat(parseFloat($scope.firstTerm) * parseFloat($scope.secondTerm)).toFixed(2);
       } else {
@@ -65,12 +65,12 @@ function($scope, $timeout) {
   //Pass the crunch to the "crunches" array. The array is what is actually displayed in the view.
   $scope.appendCrunch = function() {
     if($scope.isCurrency == true) {
-      $scope.crunches.push({title:$scope.crunchTitle,crunch:'$' + $scope.crunch(),formula:'$' + $scope.firstTerm + ' ' + $scope.operator + ' ' + '$' + $scope.secondTerm});
+      $scope.crunches.push({title:$scope.crunchTitle,crunch:'$' + $scope.crunch(),display:'$' + $scope.firstTerm + ' ' + $scope.operator + ' ' + '$' + $scope.secondTerm});
     } else {
-      $scope.crunches.push({title:$scope.crunchTitle,crunch:$scope.crunch(),formula:$scope.firstTerm + ' ' + $scope.operator + ' ' + $scope.secondTerm});
+      $scope.crunches.push({title:$scope.crunchTitle,crunch:$scope.crunch(),display:$scope.firstTerm + ' ' + $scope.operator + ' ' + $scope.secondTerm});
     }
     $scope.firstTerm = $scope.crunch();
-    $scope.formula = $scope.firstTerm + ' ' + $scope.operator + ' ' + $scope.secondTerm + ' = ' + $scope.firstTerm;
+    $scope.display = $scope.firstTerm + ' ' + $scope.operator + ' ' + $scope.secondTerm + ' = ' + $scope.firstTerm;
     $scope.secondTerm = '';
     $scope.crunchTitle = '';
 
@@ -95,13 +95,13 @@ function($scope, $timeout) {
     $scope.crunches.splice(indexReversed, 1);
   }
 
-  //Clear the text secondTerm fields.
-  $scope.clearSecondTerm = function() {
+  //Clear the term fields.
+  $scope.clearTerms = function() {
     $scope.firstTerm = '';
     $scope.secondTerm = '';
     $scope.operator = '';
     $scope.crunchTitle = '';
-    $scope.formula = 'Crunch your numbers below.';
+    $scope.display = 'Crunch your numbers below.';
   }
 
   //Clears the entire list of crunches.
@@ -123,7 +123,7 @@ function($scope, $timeout) {
       csv += 'TITLE' + delimiter + 'FORMULA' + delimiter + 'AMOUNT' + linebreak;
 
       for (i = 0; i < $scope.crunches.length; i++) {
-        csv += quote + $scope.crunches[i].title + quote + delimiter + quote + $scope.crunches[i].formula + quote + delimiter + quote + $scope.crunches[i].crunch + quote + linebreak;
+        csv += quote + $scope.crunches[i].title + quote + delimiter + quote + $scope.crunches[i].display + quote + delimiter + quote + $scope.crunches[i].crunch + quote + linebreak;
       }
 
       var data = encodeURI(csv);
@@ -175,34 +175,34 @@ function($scope, $timeout) {
       $scope.crunchIsActive = false;
     }
 
-    //Display formula in view depending on how isCurrency is toggled.
+    //Display display in view depending on how isCurrency is toggled.
     if ($scope.isCurrency == true) {
       if ($scope.firstTerm != '' && $scope.operator != '' && $scope.secondTerm != '') {
-        $scope.formula = '$' + $scope.firstTerm + ' ' + $scope.operator + ' ' + '$' + $scope.secondTerm + ' = ' + '$' + $scope.crunch();
+        $scope.display = '$' + $scope.firstTerm + ' ' + $scope.operator + ' ' + '$' + $scope.secondTerm + ' = ' + '$' + $scope.crunch();
       } else if ($scope.firstTerm != '' && $scope.operator == '' && $scope.secondTerm == '') {
-        $scope.formula = '$' + $scope.firstTerm;
+        $scope.display = '$' + $scope.firstTerm;
       } else if ($scope.firstTerm != '' && $scope.operator == '' && $scope.secondTerm != '') {
-        $scope.formula = 'Please select an operator.';
+        $scope.display = 'Please select an operator.';
       } else if ($scope.firstTerm == '' && $scope.operator != '' && $scope.secondTerm != '') {
-        $scope.formula = '?' + ' ' + $scope.operator + ' ' + '$' + $scope.secondTerm + ' = ' + '?';
+        $scope.display = '?' + ' ' + $scope.operator + ' ' + '$' + $scope.secondTerm + ' = ' + '?';
       } else if ($scope.firstTerm != '' && $scope.operator != '' && $scope.secondTerm == '') {
-        $scope.formula = '$' + $scope.firstTerm + ' ' + $scope.operator;
+        $scope.display = '$' + $scope.firstTerm + ' ' + $scope.operator;
       } else {
-        $scope.formula = 'Crunch your numbers below.';
+        $scope.display = 'Crunch your numbers below.';
       }
     } else {
       if ($scope.firstTerm != '' && $scope.operator != '' && $scope.secondTerm != '') {
-        $scope.formula = $scope.firstTerm + ' ' + $scope.operator + ' ' + $scope.secondTerm + ' = ' + $scope.crunch();
+        $scope.display = $scope.firstTerm + ' ' + $scope.operator + ' ' + $scope.secondTerm + ' = ' + $scope.crunch();
       } else if ($scope.firstTerm != '' && $scope.operator == '' && $scope.secondTerm == '') {
-        $scope.formula = $scope.firstTerm;
+        $scope.display = $scope.firstTerm;
       } else if ($scope.firstTerm != '' && $scope.operator == '' && $scope.secondTerm != '') {
-        $scope.formula = 'Please select an operator.';
+        $scope.display = 'Please select an operator.';
       } else if ($scope.firstTerm == '' && $scope.operator != '' && $scope.secondTerm != '') {
-        $scope.formula = '? ' + $scope.operator + ' ' + $scope.secondTerm + ' = ?';
+        $scope.display = '? ' + $scope.operator + ' ' + $scope.secondTerm + ' = ?';
       } else if ($scope.firstTerm != '' && $scope.operator != '' && $scope.secondTerm == '') {
-        $scope.formula = $scope.firstTerm + ' ' + $scope.operator;
+        $scope.display = $scope.firstTerm + ' ' + $scope.operator;
       } else {
-        $scope.formula = 'Crunch your numbers below.';
+        $scope.display = 'Crunch your numbers below.';
       }
     }
 
