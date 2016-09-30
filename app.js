@@ -11,8 +11,8 @@ app.controller('myController',
 function($scope, $timeout) {
 
   //Initialize variables and arrays.
-  $scope.output = '';
-  $scope.input = '';
+  $scope.firstTerm = '';
+  $scope.secondTerm = '';
   $scope.operator = '';
   $scope.formula = 'Crunch your numbers below.';
   $scope.crunchTitle = '';
@@ -26,33 +26,33 @@ function($scope, $timeout) {
 
     if ($scope.operator == "+") {
       if ($scope.isCurrency == true) {
-        return parseFloat(parseFloat($scope.output) + parseFloat($scope.input)).toFixed(2);
+        return parseFloat(parseFloat($scope.firstTerm) + parseFloat($scope.secondTerm)).toFixed(2);
       } else {
-        return parseFloat($scope.output) + parseFloat($scope.input);
+        return parseFloat($scope.firstTerm) + parseFloat($scope.secondTerm);
       }
     }
 
     else if ($scope.operator == "-") {
       if ($scope.isCurrency == true) {
-        return parseFloat(parseFloat($scope.output) - parseFloat($scope.input)).toFixed(2);
+        return parseFloat(parseFloat($scope.firstTerm) - parseFloat($scope.secondTerm)).toFixed(2);
       } else {
-        return parseFloat($scope.output) - parseFloat($scope.input);
+        return parseFloat($scope.firstTerm) - parseFloat($scope.secondTerm);
       }
     }
 
     else if ($scope.operator == "*") {
       if ($scope.isCurrency == true) {
-        return parseFloat(parseFloat($scope.output) * parseFloat($scope.input)).toFixed(2);
+        return parseFloat(parseFloat($scope.firstTerm) * parseFloat($scope.secondTerm)).toFixed(2);
       } else {
-        return parseFloat($scope.output) * parseFloat($scope.input);
+        return parseFloat($scope.firstTerm) * parseFloat($scope.secondTerm);
       }
     }
 
     else if ($scope.operator == "/") {
       if ($scope.isCurrency == true) {
-        return parseFloat(parseFloat($scope.output) / parseFloat($scope.input)).toFixed(2);
+        return parseFloat(parseFloat($scope.firstTerm) / parseFloat($scope.secondTerm)).toFixed(2);
       } else {
-        return parseFloat($scope.output) / parseFloat($scope.input);
+        return parseFloat($scope.firstTerm) / parseFloat($scope.secondTerm);
       }
     }
 
@@ -65,13 +65,13 @@ function($scope, $timeout) {
   //Pass the crunch to the "crunches" array. The array is what is actually displayed in the view.
   $scope.appendCrunch = function() {
     if($scope.isCurrency == true) {
-      $scope.crunches.push({title:$scope.crunchTitle,crunch:'$' + $scope.crunch(),formula:'$' + $scope.output + ' ' + $scope.operator + ' ' + '$' + $scope.input});
+      $scope.crunches.push({title:$scope.crunchTitle,crunch:'$' + $scope.crunch(),formula:'$' + $scope.firstTerm + ' ' + $scope.operator + ' ' + '$' + $scope.secondTerm});
     } else {
-      $scope.crunches.push({title:$scope.crunchTitle,crunch:$scope.crunch(),formula:$scope.output + ' ' + $scope.operator + ' ' + $scope.input});
+      $scope.crunches.push({title:$scope.crunchTitle,crunch:$scope.crunch(),formula:$scope.firstTerm + ' ' + $scope.operator + ' ' + $scope.secondTerm});
     }
-    $scope.output = $scope.crunch();
-    $scope.formula = $scope.output + ' ' + $scope.operator + ' ' + $scope.input + ' = ' + $scope.output;
-    $scope.input = '';
+    $scope.firstTerm = $scope.crunch();
+    $scope.formula = $scope.firstTerm + ' ' + $scope.operator + ' ' + $scope.secondTerm + ' = ' + $scope.firstTerm;
+    $scope.secondTerm = '';
     $scope.crunchTitle = '';
 
     //Play the crunch sound.
@@ -95,10 +95,10 @@ function($scope, $timeout) {
     $scope.crunches.splice(indexReversed, 1);
   }
 
-  //Clear the text input fields.
-  $scope.clearInput = function() {
-    $scope.output = '';
-    $scope.input = '';
+  //Clear the text secondTerm fields.
+  $scope.clearSecondTerm = function() {
+    $scope.firstTerm = '';
+    $scope.secondTerm = '';
     $scope.operator = '';
     $scope.crunchTitle = '';
     $scope.formula = 'Crunch your numbers below.';
@@ -137,48 +137,69 @@ function($scope, $timeout) {
 
   //Watches every time the "Use Currency" checkbox is changed in the view.
   $scope.$watch('isCurrency', function() {
-    if ($scope.isCurrency == true) {
-      $scope.input = parseFloat(Math.round($scope.input * 100) / 100).toFixed(2);
-      $scope.output = parseFloat(Math.round($scope.output * 100) / 100).toFixed(2);
-    } else if ($scope.isCurrency == false && $scope.output == '' && $scope.input == '') {
-      $scope.input == '';
-      $scope.output == '';
-    } else if ($scope.isCurrency == false && $scope.output == '') {
-      $scope.output == '';
-    } else if ($scope.isCurrency == false && $scope.input == '') {
-      $scope.input == '';
-    } else {
-      $scope.input = parseFloat(Math.round($scope.input * 100) / 100).toFixed(0);
-      $scope.output = parseFloat(Math.round($scope.output * 100) / 100).toFixed(0);
+
+    if ($scope.firstTerm == undefined){
+      $scope.firstTerm = '';
     }
+
+    if ($scope.secondTerm == undefined){
+      $scope.secondTerm = '';
+    }
+
+    if ($scope.isCurrency == true && $scope.firstTerm != '') {
+      $scope.firstTerm = parseFloat(Math.round($scope.firstTerm * 100) / 100).toFixed(2);
+    } else if ($scope.isCurrency == false && $scope.firstTerm != '') {
+      $scope.firstTerm = parseFloat(Math.round($scope.firstTerm * 100) / 100).toFixed(0);
+    } else {
+      $scope.firstTerm = '';
+    }
+
+    if ($scope.isCurrency == true && $scope.secondTerm != '') {
+      $scope.secondTerm = parseFloat(Math.round($scope.secondTerm * 100) / 100).toFixed(2);
+    } else if ($scope.isCurrency == false && $scope.secondTerm != '') {
+      $scope.secondTerm = parseFloat(Math.round($scope.secondTerm * 100) / 100).toFixed(0);
+    } else {
+      $scope.secondTerm = '';
+    }
+
   });
 
-  //Watches every time changes are made to the the input fields for the two terms and the operator in the view.
-  $scope.$watchGroup(['output','operator','input'], function () {
+  //Watches every time changes are made to the the secondTerm fields for the two terms and the operator in the view.
+  $scope.$watchGroup(['firstTerm','operator','secondTerm'], function () {
 
-    if(!isNaN(parseFloat($scope.output)) && !isNaN(parseFloat($scope.input)) && $scope.operator != '') {
+    //Controls the trigger for the crunch animation in the view.
+    if(!isNaN(parseFloat($scope.firstTerm)) && !isNaN(parseFloat($scope.secondTerm)) && $scope.operator != '') {
       $scope.crunchIsActive = true;
     } else {
       $scope.crunchIsActive = false;
     }
 
+    //Display formula in view depending on how isCurrency is toggled.
     if ($scope.isCurrency == true) {
-      if ($scope.output != '' && $scope.operator != '' && $scope.input != '') {
-        $scope.formula = '$' + $scope.output + ' ' + $scope.operator + ' ' + '$' + $scope.input + ' = ' + '$' + $scope.crunch();
-      } else if ($scope.output == '' && $scope.operator != '' && $scope.input != '') {
-        $scope.formula = '?' + ' ' + $scope.operator + ' ' + '$' + $scope.input + ' = ' + '?';
-      } else if ($scope.output != '' && $scope.operator != '' && $scope.input == '') {
-        $scope.formula = '$' + $scope.output + ' ' + $scope.operator;
+      if ($scope.firstTerm != '' && $scope.operator != '' && $scope.secondTerm != '') {
+        $scope.formula = '$' + $scope.firstTerm + ' ' + $scope.operator + ' ' + '$' + $scope.secondTerm + ' = ' + '$' + $scope.crunch();
+      } else if ($scope.firstTerm != '' && $scope.operator == '' && $scope.secondTerm == '') {
+        $scope.formula = '$' + $scope.firstTerm;
+      } else if ($scope.firstTerm != '' && $scope.operator == '' && $scope.secondTerm != '') {
+        $scope.formula = 'Please select an operator.';
+      } else if ($scope.firstTerm == '' && $scope.operator != '' && $scope.secondTerm != '') {
+        $scope.formula = '?' + ' ' + $scope.operator + ' ' + '$' + $scope.secondTerm + ' = ' + '?';
+      } else if ($scope.firstTerm != '' && $scope.operator != '' && $scope.secondTerm == '') {
+        $scope.formula = '$' + $scope.firstTerm + ' ' + $scope.operator;
       } else {
         $scope.formula = 'Crunch your numbers below.';
       }
     } else {
-      if ($scope.output != '' && $scope.operator != '' && $scope.input != '') {
-        $scope.formula = $scope.output + ' ' + $scope.operator + ' ' + $scope.input + ' = ' + $scope.crunch();
-      } else if ($scope.output == '' && $scope.operator != '' && $scope.input != '') {
-        $scope.formula = '? ' + $scope.operator + ' ' + $scope.input + ' = ?';
-      } else if ($scope.output != '' && $scope.operator != '' && $scope.input == '') {
-        $scope.formula = $scope.output + ' ' + $scope.operator;
+      if ($scope.firstTerm != '' && $scope.operator != '' && $scope.secondTerm != '') {
+        $scope.formula = $scope.firstTerm + ' ' + $scope.operator + ' ' + $scope.secondTerm + ' = ' + $scope.crunch();
+      } else if ($scope.firstTerm != '' && $scope.operator == '' && $scope.secondTerm == '') {
+        $scope.formula = $scope.firstTerm;
+      } else if ($scope.firstTerm != '' && $scope.operator == '' && $scope.secondTerm != '') {
+        $scope.formula = 'Please select an operator.';
+      } else if ($scope.firstTerm == '' && $scope.operator != '' && $scope.secondTerm != '') {
+        $scope.formula = '? ' + $scope.operator + ' ' + $scope.secondTerm + ' = ?';
+      } else if ($scope.firstTerm != '' && $scope.operator != '' && $scope.secondTerm == '') {
+        $scope.formula = $scope.firstTerm + ' ' + $scope.operator;
       } else {
         $scope.formula = 'Crunch your numbers below.';
       }
