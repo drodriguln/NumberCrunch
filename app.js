@@ -116,13 +116,14 @@ function($scope, $timeout) {
     if ($scope.crunches.length > 0 && $scope.crunches != null) {
 
       var filename = 'NumberCrunch.csv';
-      var csvDelimiter = ',';
-      var csvLineBreak = '\r\n';
-      var csv = 'data:text/csv;charset=utf-8' + csvDelimiter;
-      csv += 'TITLE' + csvDelimiter + 'FORMULA' + csvDelimiter + 'AMOUNT' + csvLineBreak;
+      var delimiter = ',';
+      var quote = '"';  //Prevents comma delimitation on strings with commas.
+      var linebreak = '\r\n';
+      var csv = 'data:text/csv;charset=utf-8' + delimiter;
+      csv += 'TITLE' + delimiter + 'FORMULA' + delimiter + 'AMOUNT' + linebreak;
 
       for (i = 0; i < $scope.crunches.length; i++) {
-        csv += $scope.crunches[i].title + csvDelimiter + $scope.crunches[i].formula + csvDelimiter + $scope.crunches[i].crunch + csvLineBreak;
+        csv += quote + $scope.crunches[i].title + quote + delimiter + quote + $scope.crunches[i].formula + quote + delimiter + quote + $scope.crunches[i].crunch + quote + linebreak;
       }
 
       var data = encodeURI(csv);
